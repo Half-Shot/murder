@@ -1,8 +1,7 @@
-use ChatChannel;
+use gamesession::channel::*;
 use player::*;
 use InternalState;
 use phase::*;
-use slog_term;
 use slog::*;
 
 pub struct GameSession {
@@ -14,7 +13,7 @@ pub struct GameSession {
 impl GameSession {
     pub fn new() -> GameSession {
         let root = Logger::root(Discard, o!(
-            "version" => env!("CARGO_PKG_VERSION"),
+            "murder.version" => env!("CARGO_PKG_VERSION"),
         ));
         let log = root.new(o!("context"=> "GameSession"));
 
@@ -43,7 +42,7 @@ impl GameSession {
         return &self.state.players;
     }
 
-    pub fn phase_start(&mut self) -> GamePhase {
+    pub fn current_phase(&mut self) -> GamePhase {
         match self.phase {
             EGamePhase::Selection => return GamePhase::Selection(SelectionState::new(&mut self.state)),
             EGamePhase::Morning => return GamePhase::Morning(MorningState::new(&mut self.state)),
@@ -52,11 +51,7 @@ impl GameSession {
         }
     }
 
-    pub fn phase_end(&mut self) {
-        self.advance_phase();
-    }
-
-    fn advance_phase(&mut self) {
+    pub fn advance_phase(&mut self) {
         // This is yuck, but that's rust.
         let old_phase = self.phase.clone();
         match self.phase {
@@ -68,32 +63,32 @@ impl GameSession {
         info!(self.log, "Moved from {:?} to {:?}", old_phase, self.phase);
     }
 
-    pub fn player_channels(&self, i: usize) -> Vec<ChatChannel> {
+    pub fn player_channels(&self, i: usize) -> Vec<EChannel> {
         let player : &Player = &self.get_player(i);
-        let mut channels : Vec<ChatChannel> = Vec::new();
+        let mut channels : Vec<EChannel> = Vec::new();
         if player.is_ghost() {
-            channels.push(ChatChannel::Ghost);
+            channels.push(EChannel::Ghost);
             return channels;
         }
 
         match self.phase {
             EGamePhase::Morning | EGamePhase::Selection => {
-                channels.push(ChatChannel::Global);
+                channels.push(EChannel::Global);
             }
             EGamePhase::Special => {
                 if player.role() == &PlayerRole::Detective {
-                    channels.push(ChatChannel::Detective);
+                    channels.push(EChannel::Detective);
                 }
             }
             EGamePhase::Mafia => {
                 if player.role() == &PlayerRole::Mafia {
-                    channels.push(ChatChannel::Mafia);
+                    channels.push(EChannel::Mafia);
                 }
             }
         }
 
         if channels.len() == 0 {
-            channels.push(ChatChannel::None);
+            channels.push(EChannel::None);
         }
 
         return channels;

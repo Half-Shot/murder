@@ -1,7 +1,7 @@
-mod chatchannel;
+mod channel;
 mod gamesession;
 mod internalstate;
 
-pub use self::chatchannel::ChatChannel;
+pub use self::channel::*;
 pub use self::gamesession::GameSession;
 pub use self::internalstate::InternalState;

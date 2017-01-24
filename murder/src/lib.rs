@@ -11,5 +11,5 @@ mod ai;
 pub use player::PlayerRole;
 pub use player::Player;
 pub use gamesession::*;
-pub use phase::GamePhase;
 pub use ai::*;
+pub use phase::*;

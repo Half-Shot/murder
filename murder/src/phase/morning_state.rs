@@ -107,11 +107,15 @@ impl<'a> MorningState<'a> {
 
     }
 
+    pub fn counted_all_votes(&self) -> bool {
+        return self.state.players.len() == self.lynch_state.len();
+    }
+
     pub fn can_anyone_vote(&self) -> bool {
         !self.state.first_night
     }
 
-    pub fn lynch_target(&mut self) -> Option<&Player> {
+    pub fn lynch_target(&mut self) -> Option<usize> {
         let mut votes : HashMap<usize,usize> = HashMap::with_capacity(self.lynch_state.len());
         for vote in self.lynch_state.values() {
             if vote.state == LynchState::Picked {
@@ -130,7 +134,7 @@ impl<'a> MorningState<'a> {
                 let plr = self.state.players.get_mut(*player).expect("Couldn't find player to lynch");
                 debug!(self.log, "Killed {:?} ({:?})", player, plr.name());
                 plr.kill();
-                return Some(plr);
+                return Some(*player);
             }
         }
         None

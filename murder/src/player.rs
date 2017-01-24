@@ -6,6 +6,17 @@ pub enum PlayerRole {
     Detective,
 }
 
+impl PlayerRole {
+    pub fn to_string(&self) -> String {
+        match self {
+            &PlayerRole::Unassigned => "Unassigned".to_string(),
+            &PlayerRole::Civilian => "Civilian".to_string(),
+            &PlayerRole::Mafia => "Mafia".to_string(),
+            &PlayerRole::Detective => "Detective".to_string(),
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct Player {
     name: String,

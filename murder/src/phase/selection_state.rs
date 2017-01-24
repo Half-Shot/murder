@@ -18,6 +18,10 @@ impl<'a> SelectionState<'a> {
         }
     }
 
+    pub fn get_player_count(&mut self) -> usize {
+        return self.state.players.len();
+    }
+
     pub fn add_player(&mut self, name: String) -> usize {
         self.state.players.push(
             Player::new(name)
