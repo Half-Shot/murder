@@ -1,0 +1,24 @@
+[package]
+name = "murder-server"
+version = "0.1.0"
+authors = ["Will Hunt <half-shot@molrams.com>"]
+licence = "MIT"
+
+[dependencies.murder]
+path = "../murder"
+
+[dependencies.slog]
+version = "1.4.0"
+
+[dependencies.slog-term]
+version = "1.3.4"
+
+[dependencies.slog-scope]
+version = "0.2.2"
+
+[dependencies.protobuf]
+version = "1.1.0"
+
+[dependencies.uuid]
+version = "0.3.1"
+features = ["v4"]

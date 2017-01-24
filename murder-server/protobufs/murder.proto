@@ -1,0 +1,51 @@
+syntax = "proto3";
+message SrvNewGame {
+  string uuid = 1;
+  bool has_started = 2;
+}
+
+message CliAddPlayer {
+  string player_name = 1;
+}
+
+message SrvAddPlayer {
+  uint32 player_id = 1;
+}
+
+message SrvState {
+  uint32 state = 1;
+}
+
+message CliRemovePlayer {
+  uint32 player_id = 1;
+}
+
+message SrvError {
+  string error = 1;
+  string details = 2;
+}
+
+message CliVote {
+  uint32 sender = 1;
+  uint32 victim = 2;
+}
+
+message CliDetectiveInvestigate {
+  uint32 sender = 1;
+  uint32 target = 2;
+}
+
+message SrvDetectiveInvestigate {
+  uint32 target = 1;
+  string role = 2;
+}
+
+message SrvVote {
+  uint32 votes = 1;
+  uint32 lynched = 2;
+  bool finished = 3;
+}
+
+message SrvRoles {
+  repeated string role = 1;
+}
