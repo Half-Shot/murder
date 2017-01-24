@@ -1,0 +1,4 @@
+target/
+src/pb_murder.rs
+python-server/murder_pb2.py
+python-server/__pycache__/
