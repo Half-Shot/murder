@@ -44,7 +44,7 @@ fn run_session(root: &Logger, log: &Logger) {
     ];
     session.use_logger(root.new(o!{}));
     loop {
-        match session.phase_start() {
+        match session.current_phase() {
             murder::GamePhase::Selection(mut state) => {
                 for i in 0..15 {
                     state.add_player(plr_names[i].to_string());
@@ -109,13 +109,17 @@ fn run_session(root: &Logger, log: &Logger) {
                 }
             },
             murder::GamePhase::Special(mut state) => {
-
+                for ai_player in &ai_players {
+                    ai_player.phase_special(&mut state);
+                }
             },
             murder::GamePhase::Mafia(mut state) => {
-
+                for ai_player in &ai_players {
+                    ai_player.phase_mafia(&mut state);
+                }
             }
         }
         io::stdin().read_line(&mut input);
-        session.phase_end();
+        session.advance_phase();
     }
 }

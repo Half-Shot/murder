@@ -2,6 +2,7 @@
 name = "murder-client"
 version = "0.1.0"
 authors = ["Will Hunt <half-shot@molrams.com>"]
+licence = "MIT"
 
 [dependencies]
 murder = { path = "../murder"}
