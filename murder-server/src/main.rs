@@ -15,6 +15,7 @@ use std::thread::spawn;
 mod gameserver;
 mod packet;
 mod pb_murder;
+mod packetphase;
 
 fn setup_logger() -> Logger {
     let drain = slog_term::streamer().async().full().build();
